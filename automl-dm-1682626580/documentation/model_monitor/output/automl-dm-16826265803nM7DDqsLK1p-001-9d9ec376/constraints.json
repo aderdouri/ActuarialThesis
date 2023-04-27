@@ -1,0 +1,49 @@
+{
+  "version" : 0.0,
+  "binary_classification_constraints" : {
+    "recall" : {
+      "threshold" : 0.8090128755364807,
+      "comparison_operator" : "LessThanThreshold"
+    },
+    "precision" : {
+      "threshold" : 0.2185929648241206,
+      "comparison_operator" : "LessThanThreshold"
+    },
+    "accuracy" : {
+      "threshold" : 0.5893673780487805,
+      "comparison_operator" : "LessThanThreshold"
+    },
+    "true_positive_rate" : {
+      "threshold" : 0.8090128755364807,
+      "comparison_operator" : "LessThanThreshold"
+    },
+    "true_negative_rate" : {
+      "threshold" : 0.555616619037151,
+      "comparison_operator" : "LessThanThreshold"
+    },
+    "false_positive_rate" : {
+      "threshold" : 0.44438338096284896,
+      "comparison_operator" : "GreaterThanThreshold"
+    },
+    "false_negative_rate" : {
+      "threshold" : 0.1909871244635193,
+      "comparison_operator" : "GreaterThanThreshold"
+    },
+    "auc" : {
+      "threshold" : 0.7309446557293297,
+      "comparison_operator" : "LessThanThreshold"
+    },
+    "f0_5" : {
+      "threshold" : 0.25595184212908484,
+      "comparison_operator" : "LessThanThreshold"
+    },
+    "f1" : {
+      "threshold" : 0.3441874619598296,
+      "comparison_operator" : "LessThanThreshold"
+    },
+    "f2" : {
+      "threshold" : 0.525264722273825,
+      "comparison_operator" : "LessThanThreshold"
+    }
+  }
+}

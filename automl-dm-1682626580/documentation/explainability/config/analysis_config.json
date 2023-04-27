@@ -1,0 +1,59 @@
+{
+    "label": "target",
+    "headers": [
+        "target",
+        "PERMIS",
+        "ACV",
+        "SEX",
+        "STATUT",
+        "CSP",
+        "USAGE",
+        "AGECOND",
+        "K8000",
+        "RM",
+        "CAR",
+        "CLA",
+        "ALI",
+        "ENE",
+        "VIT",
+        "SEGM",
+        "GARAGE"
+    ],
+    "dataset_type": "text/csv",
+    "methods": {
+        "shap": {
+            "baseline": [
+                [
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
+                ]
+            ],
+            "num_samples": 2048,
+            "agg_method": "mean_abs",
+            "save_local_shap_values": true,
+            "use_logit": true
+        },
+        "report": {
+            "name": "explainability-report",
+            "title": "Explainability Report"
+        }
+    },
+    "predictor": {
+        "label": 2,
+        "probability": 3
+    }
+}
