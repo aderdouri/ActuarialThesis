@@ -88,7 +88,7 @@ def plot_pr_auc(model, x, y, OurModelName= '_', title=''):
 
     # plot model precision-recall curve
     precision, recall, _ = precision_recall_curve(y, model_probs)
-    plt.plot(recall, precision, marker='.', label='Our model')
+    plt.plot(recall, precision, marker='.', label=OurModelName)
 
     # axis labels
     plt.xlabel('Recall')
