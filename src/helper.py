@@ -1,6 +1,3 @@
-import sys
-import subprocess
-
 # Evergrowing list of imports
 
 # The basics
@@ -55,20 +52,6 @@ from lime.lime_tabular import LimeTabularExplainer
 # Models parameters tunning
 import optuna
 from optuna.integration import LightGBMPruningCallback
-
-
-
-def installALL():
-  subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'imbalanced-learn'])
-  subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'catboost'])
-  subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'hdbscan'])
-  subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'shape'])
-  subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'lime'])
-  subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'optuna'])
-
-  subprocess.call('rm -rf ActuarialThesis', shell=True)
-  subprocess.call('git clone https://github.com/aderdouri/ActuarialThesis.git', shell=True)
-
 
 
 # Auxilary function to simplify metric calculation
