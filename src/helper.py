@@ -97,3 +97,30 @@ def plot_pr_auc(model, X_train, y_train, X_test, y_test, OurModelName= '_', titl
   fig = plt.gcf()
   return fig
 
+def plot_classification_report_confusion_matrix(model, X_test, y_test):
+  fig, (ax1, ax2) = plt.subplots(1, 2)
+
+  y_pred = model.predict(X_test)
+  clf_report = classification_report(y_test, y_pred, output_dict=True)
+
+  ax = sns.heatmap(pd.DataFrame(clf_report).T, 
+              annot=True, 
+              cbar=False, 
+              square=False,
+              fmt='g',
+              linewidths=0.5,
+              #cmap=ListedColormap(['red']),
+              cmap=plt.cm.Blues,
+              ax=ax1
+              );  
+  ax.xaxis.tick_top()              
+
+  cm = confusion_matrix(y_test, y_pred, labels=[1, 0])
+  sns.heatmap(cm, annot=True, fmt="d")
+  ax2.set_ylabel('Actual label')
+  ax2.set_xlabel('Predicted label')
+  ax2.set_title('Confusion matrix')
+
+  fig = plt.gcf()
+  return fig
+
