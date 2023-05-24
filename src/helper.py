@@ -54,92 +54,46 @@ import optuna
 from optuna.integration import LightGBMPruningCallback
 
 
-# Auxilary function to simplify metric calculation
-def plot_pr_auc(model, x, y, OurModelName= '_', title=''):
+def getPrecisionRecallCurve(model, X, y):
+  yhat = model.predict_proba(X)
+  model_probs = yhat[:, 1]
+  precision, recall, _ = precision_recall_curve(y, model_probs)
+  return precision, recall
 
-    yhat = model.predict_proba(x)
-    model_probs = yhat[:, 1]
-
-    # calculate the precision-recall auc
-    precision, recall, _ = precision_recall_curve(y, model_probs)
-    auc_score = auc(recall, precision)
-
-    # calculate the no skill line as the proportion of the positive class
-    no_skill = len(y[y==1]) / len(y)
-    # plot the no skill precision-recall curve
-    plt.plot([0, 1], [no_skill, no_skill], linestyle='--', label='Dummy')
-
-    # plot model precision-recall curve
-    precision, recall, _ = precision_recall_curve(y, model_probs)
-    plt.plot(recall, precision, marker='.', label=OurModelName)
-
-    # axis labels
-    plt.xlabel('Recall')
-    plt.ylabel('Precision')
-    #plt.title(title + auc_score)
-    #plt.title(title + str(auc_score), y=-0.25)
-    plt.legend()
-    plt.show()
-
-    fig = plt.gcf()
-    return fig
+def positiveClassProportion(y):
+  return len(y[y==1])/len(y)
 
 # Auxilary function to simplify metric calculation
-def plot_pr_auc_val(model, X_val, y_val, OurModelName='_', title=''):
+def plot_pr_auc(model, X_train, y_train, X_test, y_test, OurModelName= '_', title=''):
+  # Calculate the no skill line as the proportion of the positive class
+  no_skill_train = positiveClassProportion(y_train)
+  no_skill_test = positiveClassProportion(y_test)
 
-    yhat = model.predict_proba(X_val)
-    y_pred = model.predict(X_val)
-    model_probs = yhat[:, 1]
+  fig, (ax1, ax2) = plt.subplots(1, 2)
 
-    precision, recall, _ = precision_recall_curve(y_val, model_probs)
-    auc_score = auc(recall, precision)
+  # Plot the no skill precision-recall curve
+  ax1.plot([0, 1], [no_skill_train, no_skill_train], linestyle='--', label='Dummy')    
+  ax2.plot([0, 1], [no_skill_test, no_skill_test], linestyle='--', label='Dummy')
 
-    fig, (ax1, ax2, ax3) = plt.subplots(1, 3)
-    fig.set_size_inches(20, 6)
+  # calculate the precision-recall auc
+  precision_train, recall_train = getPrecisionRecallCurve(model, X_train, y_train)
+  precision_test, recall_test = getPrecisionRecallCurve(model, X_test, y_test)
 
-    # calculate the no skill line as the proportion of the positive class
-    no_skill_val = len(y_val[y_val==1]) / len(y_val)
+  # plot model precision-recall curve
+  ax1.plot(recall_train, precision_train, marker='.', label=OurModelName)
+  ax2.plot(recall_test, precision_test, marker='.', label=OurModelName)
 
-    # plot model precision-recall curve
-    precision, recall, _ = precision_recall_curve(y_val, model_probs)
+  # axis labels
+  ax1.set_xlabel('Recall')
+  ax1.set_ylabel('Precision')
+  ax1.set_title('Train - Area Under the curve precision-recall curve')
+  ax1.legend()
 
-    # plot the no skill precision-recall curve
-    ax1.plot([0, 1], [no_skill_val, no_skill_val], linestyle='--', label='Dummy')
-    ax1.plot(recall, precision, marker='.', label=OurModelName)
-    ax1.set_xlabel('Recall')
-    ax1.set_ylabel('Precision')
-    #ax1.set_title(title + str(auc_score_val), y=-0.25)
-    ax1.legend()
+  ax2.set_xlabel('Recall')
+  ax2.set_ylabel('Precision')
+  ax2.set_title('Test - Area Under the curve precision-recall curve')
+  ax2.legend()
 
-    clf_report = classification_report(y_val, y_pred, output_dict=True)
-
-    from matplotlib.colors import ListedColormap
-    ax = sns.heatmap(pd.DataFrame(clf_report).T, 
-                annot=True, 
-                cbar=False, 
-                square=False,
-                fmt='g',
-                linewidths=0.5,
-                #cmap=ListedColormap(['red']),
-                cmap=plt.cm.Blues,
-                ax=ax2
-                );  
-    ax.xaxis.tick_top()              
-
-    #ax2.set_xlabel('Recall')
-    #ax2.set_ylabel('Precision')
-    Accuracy = accuracy_score(y_val, y_pred)
-    Accuracy_balanced = balanced_accuracy_score(y_val, y_pred)
-
-    ax2.set_title('(Accuracy, balanced Accuracy) = ({:.3f}, {:.3f}) '.format(Accuracy, Accuracy_balanced), y=-0.25)
-    #ax2.axis('off')
-
-    cm = confusion_matrix(y_val, y_pred, labels=[1, 0])
-    sns.heatmap(cm, annot=True, fmt="d")
-    ax3.set_ylabel('Actual label')
-    ax3.set_xlabel('Predicted label')
-    ax3.set_title('Confusion matrix')
-    
-    return fig
-
+  fig = plt.gcf()
+  return fig
 
