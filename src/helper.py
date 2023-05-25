@@ -26,6 +26,7 @@ from sklearn.metrics import balanced_accuracy_score
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import matthews_corrcoef, confusion_matrix
+from sklearn.utils.class_weight import compute_class_weight
 
 # Models
 from sklearn.ensemble import RandomForestClassifier
