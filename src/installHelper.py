@@ -8,4 +8,4 @@ def installALL():
   subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'shap'])
   subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'lime'])
   subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'optuna'])
-
+  subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'kaleido'])
