@@ -55,6 +55,9 @@ from lime.lime_tabular import LimeTabularExplainer
 import optuna
 from optuna.integration import LightGBMPruningCallback
 
+# Others
+import kaleido
+
 
 def getPrecisionRecallCurve(model, X, y):
   yhat = model.predict_proba(X)
