@@ -1,3 +1,10 @@
+#==========================================================================
+# Reference: He Zhou, Yi Yang, Wei Qian (2019),
+# "Tweedie Gradient Boosting for Extremely Unbalanced Zero-inflated Data", 
+# arxiv preprint, arXiv:1811.10192
+# Source code: https://github.com/archer-yang-lab/EMTboost
+#==========================================================================
+
 ############################################################################
 #      F(x) generator, Based on Friedman(1999)
 ############################################################################

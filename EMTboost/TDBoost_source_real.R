@@ -1,3 +1,10 @@
+#==========================================================================
+# Reference: He Zhou, Yi Yang, Wei Qian (2019),
+# "Tweedie Gradient Boosting for Extremely Unbalanced Zero-inflated Data", 
+# arxiv preprint, arXiv:1811.10192
+# Source code: https://github.com/archer-yang-lab/EMTboost
+#==========================================================================
+
 #############################################################################
 TDboost.profile.real <- function(formula, p.vec=NULL, xi.vec=NULL, link.power = 0, 
                             data, weights, offset, fit.glm=FALSE, 
