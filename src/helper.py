@@ -165,8 +165,8 @@ def plotLiftChart(df):
 
   fig, ax = plt.subplots(figsize=(12, 6))
   label = 'TDboost'
-  ax.plot(range(nbBins), avgObserved, linestyle="-", label='averagedObserved')
-  ax.plot(range(nbBins), avgPredicted, linestyle="-", label='averagedPredicted')
+  ax.plot(range(nbBins), avgObserved, linestyle="-", label='averagedObserved', marker='o')
+  ax.plot(range(nbBins), avgPredicted, linestyle="-", label='averagedPredicted', marker='o')
   ax.legend(loc="upper left")
   ax.axline((0, avgPredicted.iloc[0]), (nbBins, avgPredicted.iloc[0]), linewidth=0.5, color='r')
   ax.axline((0, avgPredicted.iloc[nbBins-1]), (nbBins, avgPredicted.iloc[nbBins-1]), linewidth=0.5, color='r')
