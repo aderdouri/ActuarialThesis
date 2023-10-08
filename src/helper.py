@@ -9,6 +9,7 @@ import re
 # The viz
 import matplotlib.pyplot as plt
 import seaborn as sns
+import scikitplot as skplt
 from matplotlib.colors import ListedColormap
 
 # Data preprocessing
