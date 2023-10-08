@@ -127,5 +127,95 @@ def plot_classification_report_confusion_matrix(model, X_test, y_test):
   ax2.set_title('Confusion matrix')
 
   fig = plt.gcf()
+  return fig  
+
+def df_ObservedVsPredicted(y_observed, y_predicted):
+  df = pd.DataFrame({
+      'Observed': y_observed,
+      'Predicted': y_predicted
+      })
+  return df
+
+
+def plotObservedVsPrediced(y_observed, y_predicted):
+  # Create two subplots and unpack the output array immediately
+  fig, (ax1, ax2) = plt.subplots(1, 2, sharey=True,  figsize=(15, 4))
+
+  # Create scatter plot with actual and predicted values
+  sns.scatterplot(ax=ax1, x=y_observed, y=y_predicted)
+  ax1.set_xlabel('Actual Values')
+  ax1.set_ylabel('Predicted Values')
+  ax1.set_title('Actual vs Predicted Values')
+
+  # Create regression plot with actual and predicted values
+  sns.regplot(ax=ax2, x=y_observed, y=y_predicted, scatter_kws={'s': 10}, line_kws={'color': 'red'})
+  ax2.set_xlabel('Predicted Values')
+  ax2.set_ylabel('Residuals')
+  ax2.set_title('Residual Plot of Actual vs Predicted Values');
   return fig
 
+def plotLiftChart(df):
+  nbBins = 10
+  df['Exposure'] = np.ones(len(df))
+  df.sort_values(by='Predicted', inplace=True, ascending=True)
+  df['cumExpo'] = np.cumsum(df['Exposure'])  
+  df['ct'] = pd.qcut(df['cumExpo'], nbBins, labels=False)
+  avgObserved = (df.groupby(by=['ct'])['Observed'].mean()) / df['Predicted'].mean()
+  avgPredicted = (df.groupby(by=['ct'])['Predicted'].mean()) / df['Predicted'].mean()
+
+  fig, ax = plt.subplots(figsize=(12, 6))
+  label = 'TDboost'
+  ax.plot(range(nbBins), avgObserved, linestyle="-", label='averagedObserved')
+  ax.plot(range(nbBins), avgPredicted, linestyle="-", label='averagedPredicted')
+  ax.legend(loc="upper left")
+  ax.axline((0, avgPredicted.iloc[0]), (nbBins, avgPredicted.iloc[0]), linewidth=0.5, color='r')
+  ax.axline((0, avgPredicted.iloc[nbBins-1]), (nbBins, avgPredicted.iloc[nbBins-1]), linewidth=0.5, color='r')
+  plt.plot()
+  return fig
+
+from sklearn.metrics import auc
+def lorenz_curve(y_true, y_pred, exposure):
+    y_true, y_pred = np.asarray(y_true), np.asarray(y_pred)
+    exposure = np.asarray(exposure)
+
+    # order samples by increasing predicted risk:
+    ranking = np.argsort(y_pred)
+    ranked_exposure = exposure[ranking]
+    ranked_pure_premium = y_true[ranking]
+    cumulated_claim_amount = np.cumsum(ranked_pure_premium * ranked_exposure)
+    cumulated_claim_amount /= cumulated_claim_amount[-1]
+    cumulated_samples = np.linspace(0, 1, len(cumulated_claim_amount))
+    return cumulated_samples, cumulated_claim_amount
+
+
+def plotLorenzCurve(df):  
+  fig, ax = plt.subplots(figsize=(8, 10))
+  y_pred = df['Predicted']
+  df['Exposure'] = np.ones(len(df))
+  label = 'Model'
+
+  ordered_samples, cum_claims = lorenz_curve(
+      df["Observed"], y_pred, df["Exposure"]
+      )
+  gini = 1 - 2 * auc(ordered_samples, cum_claims)
+  label += " (Gini index: {:.3f})".format(gini)
+  ax.plot(ordered_samples, cum_claims, linestyle="-", label=label)
+
+  # Oracle model: y_pred == y_test
+  ordered_samples, cum_claims = lorenz_curve(
+      df["Observed"], df["Observed"], df["Exposure"]
+  )
+  gini = 1 - 2 * auc(ordered_samples, cum_claims)
+  label = "Oracle (Gini index: {:.3f})".format(gini)
+  ax.plot(ordered_samples, cum_claims, linestyle="-.", color="gray", label=label)
+
+  # Random baseline
+  ax.plot([0, 1], [0, 1], linestyle="--", color="black", label="Random baseline")
+  ax.set(
+      title="Lorenz Curves",
+      xlabel="Fraction of policyholders\n(ordered by model from safest to riskiest)",
+      ylabel="Fraction of total claim amount",
+  )
+  ax.legend(loc="upper left")
+  plt.plot()    
+  return fig
