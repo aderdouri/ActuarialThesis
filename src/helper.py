@@ -109,23 +109,23 @@ def plot_classification_report_confusion_matrix(model, X_test, y_test):
   y_pred = model.predict(X_test)
   clf_report = classification_report(y_test, y_pred, output_dict=True)
 
-  ax = sns.heatmap(pd.DataFrame(clf_report).T, 
+  clf_report_df = pd.DataFrame(clf_report)
+  clf_report_df.drop(['support'], inplace=True)
+
+  ax = sns.heatmap(clf_report_df.T, 
               annot=True, 
               cbar=False, 
               square=False,
               fmt='g',
-              linewidths=0.5,
-              #cmap=ListedColormap(['red']),
+              linewidths=0.9,
               cmap=plt.cm.Blues,
               ax=ax1
               );  
-  ax.xaxis.tick_top()              
+  ax.xaxis.tick_top()
+  ax.set_title('Classification report')
+  ax.set_xlabel('Accuracy (balanced): {:.5f}'.format(balanced_accuracy_score(y_test, y_pred)))
 
-  cm = confusion_matrix(y_test, y_pred, labels=[1, 0])
-  sns.heatmap(cm, annot=True, fmt="d")
-  ax2.set_ylabel('Actual label')
-  ax2.set_xlabel('Predicted label')
-  ax2.set_title('Confusion matrix')
+  skplt.metrics.plot_confusion_matrix(y_test, y_pred, normalize=True, ax=ax2)
 
   fig = plt.gcf()
   return fig  
