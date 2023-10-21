@@ -28,6 +28,7 @@ from sklearn.metrics import accuracy_score, f1_score
 from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import matthews_corrcoef, confusion_matrix
 from sklearn.metrics import average_precision_score
+from sklearn.metrics import mean_squared_error
 from sklearn.utils.class_weight import compute_class_weight
 
 # Models
