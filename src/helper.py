@@ -63,6 +63,9 @@ from optuna.integration import LightGBMPruningCallback
 import kaleido
 
 
+# Appliquer le theme par défaut
+sns.set_theme()
+
 colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
 
 def getPrecisionRecallCurve(model, X, y):
