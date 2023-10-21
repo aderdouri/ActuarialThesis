@@ -60,6 +60,8 @@ from optuna.integration import LightGBMPruningCallback
 import kaleido
 
 
+colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+
 def getPrecisionRecallCurve(model, X, y):
   yhat = model.predict_proba(X)
   model_probs = yhat[:, 1]
@@ -155,8 +157,7 @@ def plotObservedVsPrediced(y_observed, y_predicted):
   ax2.set_title('Residual Plot of Actual vs Predicted Values');
   return fig
 
-def plotLiftChart(df):
-  nbBins = 10
+def plotLiftChart(df, nbBins=10):
   df['Exposure'] = np.ones(len(df))
   df.sort_values(by='Predicted', inplace=True, ascending=True)
   df['cumExpo'] = np.cumsum(df['Exposure'])  
@@ -165,16 +166,17 @@ def plotLiftChart(df):
   avgPredicted = (df.groupby(by=['ct'])['Predicted'].mean()) / df['Predicted'].mean()
 
   fig, ax = plt.subplots(figsize=(12, 6))
-  label = 'TDboost'
-  ax.plot(range(nbBins), avgObserved, linestyle="-", label='averagedObserved', marker='o')
-  ax.plot(range(nbBins), avgPredicted, linestyle="-", label='averagedPredicted', marker='o')
+  ax.plot(range(nbBins), avgObserved, linestyle="-", label='Observed', marker='o')
+  ax.plot(range(nbBins), avgPredicted, linestyle="-", label='Predicted', marker='o')
   ax.legend(loc="upper left")
+  ax.set_title('Lift Chart Observed vs Predicetd', fontsize=18)
+  ax.set_xlabel('Deciles')
+  ax.set_ylabel('Mean normalized CHARGE')
   ax.axline((0, avgPredicted.iloc[0]), (nbBins, avgPredicted.iloc[0]), linewidth=0.5, color='r')
   ax.axline((0, avgPredicted.iloc[nbBins-1]), (nbBins, avgPredicted.iloc[nbBins-1]), linewidth=0.5, color='r')
   plt.plot()
-  return fig
+  return fig, ax
 
-from sklearn.metrics import auc
 def lorenz_curve(y_true, y_pred, exposure):
     y_true, y_pred = np.asarray(y_true), np.asarray(y_pred)
     exposure = np.asarray(exposure)
@@ -200,7 +202,7 @@ def plotLorenzCurve(df):
       )
   gini = 1 - 2 * auc(ordered_samples, cum_claims)
   label += " (Gini index: {:.3f})".format(gini)
-  ax.plot(ordered_samples, cum_claims, linestyle="-", label=label)
+  ax.plot(ordered_samples, cum_claims, linestyle="-", color=colors[1], label=label)
 
   # Oracle model: y_pred == y_test
   ordered_samples, cum_claims = lorenz_curve(
@@ -219,4 +221,4 @@ def plotLorenzCurve(df):
   )
   ax.legend(loc="upper left")
   plt.plot()    
-  return fig
+  return fig, ax
