@@ -24,7 +24,7 @@ from sklearn.metrics import auc
 from sklearn.metrics import log_loss
 from sklearn.metrics import classification_report
 from sklearn.metrics import balanced_accuracy_score
-from sklearn.metrics import accuracy_score, f1_score
+from sklearn.metrics import accuracy_score, f1_score, r2_score
 from sklearn.metrics import precision_score, recall_score
 from sklearn.metrics import matthews_corrcoef, confusion_matrix
 from sklearn.metrics import average_precision_score
