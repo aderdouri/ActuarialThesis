@@ -37,7 +37,7 @@ from sklearn.model_selection import GridSearchCV, StratifiedKFold
 
 from xgboost import XGBRegressor, XGBClassifier
 from lightgbm import LGBMRegressor, LGBMClassifier
-from catboost import CatBoostRegressor, CatBoostClassifier
+from catboost import CatBoostRegressor, CatBoostClassifier, Pool
 
 from sklearn.linear_model import LogisticRegression
 
