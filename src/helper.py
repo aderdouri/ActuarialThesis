@@ -36,7 +36,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 
 from xgboost import XGBRegressor, XGBClassifier
-from lightgbm import LGBMRegressor, XGBClassifier
+from lightgbm import LGBMRegressor, LGBMClassifier
 from catboost import CatBoostRegressor, CatBoostClassifier
 
 from sklearn.linear_model import LogisticRegression
