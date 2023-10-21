@@ -32,15 +32,16 @@ from sklearn.metrics import mean_squared_error
 from sklearn.utils.class_weight import compute_class_weight
 
 # Models
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklego.meta import ZeroInflatedRegressor
 
 from xgboost import XGBRegressor, XGBClassifier
 from lightgbm import LGBMRegressor, LGBMClassifier
 from lightgbm import early_stopping, log_evaluation
 from catboost import CatBoostRegressor, CatBoostClassifier, Pool
 
-from sklearn.linear_model import LogisticRegression
+from sklearn.linear_model import LogisticRegression, Lasso
 
 # Over- under- samplers
 from imblearn.combine import SMOTETomek
