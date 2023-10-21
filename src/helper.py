@@ -34,9 +34,10 @@ from sklearn.utils.class_weight import compute_class_weight
 # Models
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
-import xgboost.sklearn as xgb
-import lightgbm.sklearn as gbm
-import catboost.sklearn as cb
+
+from xgboost import XGBRegressor, XGBClassifier
+from lightgbm import LGBMRegressor, XGBClassifier
+from catboost import CatBoostRegressor, CatBoostClassifier
 
 from sklearn.linear_model import LogisticRegression
 
