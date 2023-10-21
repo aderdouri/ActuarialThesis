@@ -35,7 +35,8 @@ from sklearn.utils.class_weight import compute_class_weight
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV, StratifiedKFold
 import xgboost.sklearn as xgb
-import lightgbm.sklearn as lgbm
+import lightgbm.sklearn as gbm
+import catboost.sklearn as cb
 
 from sklearn.linear_model import LogisticRegression
 
@@ -193,7 +194,7 @@ def lorenz_curve(y_true, y_pred, exposure):
 
 
 def plotLorenzCurve(df):  
-  fig, ax = plt.subplots(figsize=(8, 10))
+  fig, ax = plt.subplots(figsize=(12, 6))
   y_pred = df['Predicted']
   df['Exposure'] = np.ones(len(df))
   label = 'Model'
