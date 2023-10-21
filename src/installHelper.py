@@ -11,3 +11,4 @@ def installALL():
   subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'kaleido'])
   subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'seaborn'])
   subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'scikit-plot'])
+  subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'sklego'])
