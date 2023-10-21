@@ -170,7 +170,7 @@ def plotLiftChart(df, nbBins=10):
   ax.plot(range(nbBins), avgObserved, linestyle="-", label='Observed', marker='o')
   ax.plot(range(nbBins), avgPredicted, linestyle="-", label='Predicted', marker='o')
   ax.legend(loc="upper left")
-  ax.set_title('Lift Chart Observed vs Predicetd', fontsize=18)
+  ax.set_title('Lift Chart Observed vs Predicetd', fontsize=16)
   ax.set_xlabel('Deciles')
   ax.set_ylabel('Mean normalized CHARGE')
   ax.axline((0, avgPredicted.iloc[0]), (nbBins, avgPredicted.iloc[0]), linewidth=0.5, color='r')
@@ -199,7 +199,7 @@ def plotLorenzCurve(df):
   label = 'Model'
 
   ordered_samples, cum_claims = lorenz_curve(
-      df["Observed"], y_pred, df["Exposure"]
+      df['Observed'], y_pred, df['Exposure']
       )
   gini = 1 - 2 * auc(ordered_samples, cum_claims)
   label += " (Gini index: {:.3f})".format(gini)
@@ -207,19 +207,19 @@ def plotLorenzCurve(df):
 
   # Oracle model: y_pred == y_test
   ordered_samples, cum_claims = lorenz_curve(
-      df["Observed"], df["Observed"], df["Exposure"]
+      df['Observed'], df['Observed'], df['Exposure']
   )
   gini = 1 - 2 * auc(ordered_samples, cum_claims)
-  label = "Oracle (Gini index: {:.3f})".format(gini)
+  label = 'Oracle (Gini index: {:.3f})'.format(gini)
   ax.plot(ordered_samples, cum_claims, linestyle="-.", color="gray", label=label)
 
   # Random baseline
-  ax.plot([0, 1], [0, 1], linestyle="--", color="black", label="Random baseline")
-  ax.set(
-      title="Lorenz Curves",
-      xlabel="Fraction of policyholders\n(ordered by model from safest to riskiest)",
-      ylabel="Fraction of total claim amount",
-  )
+  ax.plot([0, 1], [0, 1], linestyle='--', color='black', label='Random baseline')
+
+  ax.set_title('Lorenz Curves', fontsize=16)
+  ax.set_xlabel('Fraction of policyholders\n(ordered by model from safest to riskiest)')
+  ax.set_ylabel('Fraction of total claim amount')
+
   ax.legend(loc="upper left")
   plt.plot()    
   return fig, ax
