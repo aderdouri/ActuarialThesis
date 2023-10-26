@@ -165,7 +165,8 @@ def plotObservedVsPrediced(y_observed, y_predicted):
   ax2.set_title('Residual Plot of Actual vs Predicted Values');
   return fig
 
-def plotLiftChart(df, nbBins=10):
+def plotLiftChart(dfIn, nbBins=10):
+  df = dfIn.copy()
   df['Exposure'] = np.ones(len(df))
   df.sort_values(by='Predicted', inplace=True, ascending=True)
   df['cumExpo'] = np.cumsum(df['Exposure'])  
