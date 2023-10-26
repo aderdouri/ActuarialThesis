@@ -33,7 +33,7 @@ from sklearn.utils.class_weight import compute_class_weight
 
 # Models
 from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.model_selection import GridSearchCV, StratifiedKFold
+from sklearn.model_selection import GridSearchCV, StratifiedKFold, RepeatedKFold
 from sklego.meta import ZeroInflatedRegressor
 
 from xgboost import XGBRegressor, XGBClassifier
@@ -59,7 +59,8 @@ from lime.lime_tabular import LimeTabularExplainer
 
 # Models parameters tunning
 import optuna
-from optuna.integration import LightGBMPruningCallback
+from optuna.integration import LightGBMPruningCallback, XGBoostPruningCallback
+
 
 # Others
 import kaleido
