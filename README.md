@@ -24,7 +24,9 @@ Ces modèles sont appliqués pour modéliser à la fois la fréquence et le coû
 
 ## 📂 Contenu du dépôt
 
-- `data/` → jeux de données et prétraitements
-- `notebooks/` → notebooks Jupyter pour l’exploration et les tests
-- `scripts/` → scripts Python pour l’entraînement et l’évaluation des modèles
-- `README.md` → ce fichier
+- `Data/` → Jeux de données (données automobile et autres)
+- `EMTboost/` → Sources du package ou framework EMTboost (machine learning boosting)
+- `Notebooks/` → Notebooks Google Colaboratory pour analyses et expérimentations
+- `R/` → Scripts et analyses en R
+- `src/` → Scripts utlitairesPython
+
